@@ -1,0 +1,33 @@
+.TH XGETC 1 "Date: 2005/03/01 01:00:00" "XGETC"
+.SH NAME
+xgetc \- get geometry/color/position of the selection or clicked location in X.
+.SH SYNOPSIS
+.TP
+\fBxget\fP [\fI-g|-c|-p\fP]
+.SH OVERVIEW
+When run without any argument, \fBxget\fP will run forever and will respond to mouse
+click by printing the pixel color (in hexadecimal notation) and position to stdout.
+When a selection is made, xgetc will print the geometry of the selection instead 
+(widthXheight+x+y).
+
+When options are given then the behavior will be as described in the following section.
+
+.SH OPTIONS
+.TP
+\fB\-g\fR
+prints the geometry only
+.TP
+\fB\-c\fR
+prints the pixel color at the mouse click.
+.TP
+\fB\-p\fR
+prints the x and y coordinates of the mouse click.
+
+.SH BUGS
+Repeated options does not work well.
+
+.SH SEE-ALSO
+ImageMagick(1), wmctrl(1), xdotool(1)
+
+.SH COPYRIGHT
+\fBCopyright (C) 2008 Nazri Ramliy. Most of the code in xgetc was stolen^H^H^H^H^H^Hcopied from the ImageMagick program.
