@@ -538,7 +538,7 @@ int main(int argc, char *argv[]) {
 		const char *arg = argv[1];
 		if (!strcmp(arg, "-c"))
 			do_get_color();
-		if (!strcmp(arg, "-v"))
+		else if (!strcmp(arg, "-v"))
 			do_show_version();
 		else if (!strcmp(arg, "-g"))
 			do_get_geometry();
