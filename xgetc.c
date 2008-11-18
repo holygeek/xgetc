@@ -13,10 +13,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#define EXIT_IF_NULL(d) if ((d) == NULL) { fprintf(stderr, "Error: Can't open display: %s\n", getenv("DISPLAY")); exit(1); }
 
 int show_color_at(int x, int y) {
   Window root_window;
-	Display *display = XOpenDisplay(NULL);
+  Display *display = XOpenDisplay(NULL);
 
   XWindowAttributes wa;
 
@@ -310,6 +311,7 @@ static Window XSelectWindow(Display *display,RectangleInfo *crop_info)
   XGCValues
     context_values;
 
+  EXIT_IF_NULL(display);
   /*
     Initialize graphic context.
   */
