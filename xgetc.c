@@ -1,7 +1,7 @@
 /* 
- * xgetcc.c - get X cursor's geometry/color/position.
+ * xgetc.c - get X cursor's geometry/color/position.
  *
- * Most of the code here were shamelessly stolen^H^H^H^H^H^Hcopied
+ * Most of the code here were shamelessly stolen^Wcopied
  * from ImageMagick's xwindow.c  (See LICENSE).
  *
  * Copyright (C) 2008 Nazri Ramliy.
@@ -13,7 +13,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#define EXIT_IF_NULL(d) if ((d) == NULL) { fprintf(stderr, "Error: Can't open display: %s\n", getenv("DISPLAY")); exit(1); }
+#define EXIT_IF_NULL(d) if ((d) == NULL) { \
+	fprintf(stderr, "Error: Can't open display: %s\n", getenv("DISPLAY")); \
+   	exit(1);\
+}
 
 int show_color_at(int x, int y) {
   Window root_window;
@@ -430,95 +433,82 @@ static Window XSelectWindow(Display *display,RectangleInfo *crop_info)
 }
 
 void showCropInfo(RectangleInfo *crop_info) {
-  int tlx = crop_info->x;
-  int tly = crop_info->y;
-  int brx = tlx+crop_info->width;
-  int bry = tly+crop_info->height;
-  if(tlx == brx && tly == bry) {
-    printf("%3d %3d ", tlx, tly);
-    show_color_at(tlx, tly);
-	printf("\n");
-  } else {
-    printf("%dx%d+%d+%d", crop_info->width, crop_info->height,
-      crop_info->x, crop_info->y);
-	printf("\n");
-  }
-}
-
-void showColor(RectangleInfo *crop_info) {
-  int tlx = crop_info->x;
-  int tly = crop_info->y;
-  int brx = tlx+crop_info->width;
-  int bry = tly+crop_info->height;
-  show_color_at(tlx, tly);
-  printf("\n");
-}
-
-void showPosition(RectangleInfo *crop_info) {
-  int tlx = crop_info->x;
-  int tly = crop_info->y;
-  printf("%3d %3d ", tlx, tly);
-  printf("\n");
+	int tlx = crop_info->x;
+	int tly = crop_info->y;
+	int brx = tlx+crop_info->width;
+	int bry = tly+crop_info->height;
+	if(tlx == brx && tly == bry) {
+		printf("%3d %3d ", tlx, tly);
+		show_color_at(tlx, tly);
+		printf("\n");
+	} else {
+		printf("%dx%d+%d+%d",
+				crop_info->width, crop_info->height,
+				crop_info->x, crop_info->y);
+		printf("\n");
+	}
 }
 
 void showGeometry(RectangleInfo *crop_info) {
-  int tlx = crop_info->x;
-  int tly = crop_info->y;
-  int brx = tlx+crop_info->width;
-  int bry = tly+crop_info->height;
-  if(tlx == brx && tly == bry) {
-    printf("%3d %3d ", tlx, tly);
-  	show_color_at(tlx, tly);
-  } else {
-    printf("%dx%d+%d+%d", crop_info->width, crop_info->height,
-      crop_info->x, crop_info->y);
-  }
-  printf("\n");
+	int tlx = crop_info->x;
+	int tly = crop_info->y;
+	int brx = tlx+crop_info->width;
+	int bry = tly+crop_info->height;
+	if(tlx == brx && tly == bry) {
+		printf("%3d %3d ", tlx, tly);
+		show_color_at(tlx, tly);
+	} else {
+		printf("%dx%d+%d+%d", crop_info->width, crop_info->height,
+		crop_info->x, crop_info->y);
+	}
+	printf("\n");
 }
 
 void do_get_color() {
-  RectangleInfo crop_info;
-  Window w = XSelectWindow(XOpenDisplay(NULL), &crop_info);
-  showColor(&crop_info);
+	RectangleInfo crop_info;
+	Window w = XSelectWindow(XOpenDisplay(NULL), &crop_info);
+	show_color_at(crop_info.x, crop_info.y);
+	printf("\n");
 }
 
 void do_get_position() {
-  RectangleInfo crop_info;
-  Window w = XSelectWindow(XOpenDisplay(NULL), &crop_info);
-  showPosition(&crop_info);
+	RectangleInfo crop_info;
+	Window w = XSelectWindow(XOpenDisplay(NULL), &crop_info);
+	printf("%3d %3d ", crop_info.x, crop_info.y);
+	printf("\n");
 }
 
 void do_get_geometry() {
-  Window a;
-  Display *display = XOpenDisplay(NULL);
-  RectangleInfo crop_info;
-  a = XSelectWindow(display, &crop_info);
-  showGeometry(&crop_info);
-  XEvent event;
-  // The following has a side effect of clearing the rectangle, which is what
-  // we want here.
-  (void) XCheckWindowEvent(display,XRootWindow(display,XDefaultScreen(display)),
-		  ButtonPressMask | ButtonReleaseMask | ButtonMotionMask,&event);
+	Window w;
+	Display *display = XOpenDisplay(NULL);
+	RectangleInfo crop_info;
+	w = XSelectWindow(display, &crop_info);
+	showGeometry(&crop_info);
+	XEvent event;
+	// The following has a side effect of clearing the rectangle, which is what
+	// we want here.
+	(void) XCheckWindowEvent(display,XRootWindow(display,XDefaultScreen(display)),
+		ButtonPressMask | ButtonReleaseMask | ButtonMotionMask,&event);
 }
 
 void do_forever() {
-  Window a;
-  Display *display = XOpenDisplay(NULL);
-  RectangleInfo crop_info;
-  while(1) {
-    a = XSelectWindow(display, &crop_info);
-    showCropInfo(&crop_info);
-  }
+	Window w;
+	Display *display = XOpenDisplay(NULL);
+	RectangleInfo crop_info;
+	while(1) {
+		w = XSelectWindow(display, &crop_info);
+		showCropInfo(&crop_info);
+	}
 }
 
 void usage() {
-	printf("Usage: xgetcc [-g|-c|-p]\n");
-	printf("\txgetcc -g  - get geometry - click or selection\n");
-	printf("\txgetcc -c  - get color\n");
-	printf("\txgetcc -p  - get position\n");
-	printf("\txgetcc -v  - show version\n");
-	printf("\txgetcc -h  - show this message\n");
-	printf("\txgetcc     - run forever. Show mouse click/geometry of selection until killed.\n");
+	printf("Usage: xgetc [-g|-c|-p]\n");
+	printf("\txgetc -g  - get geometry - click or selection\n");
+	printf("\txgetc -c  - get color\n");
+	printf("\txgetc -p  - get position\n");
+	printf("\txgetc -v  - show version\n");
+	printf("\txgetc -h  - show this message\n");
+	printf("\txgetc     - run forever. Show mouse click/geometry of selection until killed.\n");
 	exit(0);
 	// TODO:
 	//printf("xgetc -c -x 144  - get color along x's 144, y=0,maxy
@@ -536,6 +526,8 @@ void do_show_version() {
 int main(int argc, char *argv[]) {
 	if (1 == argc) {
 		do_forever();
+	} else if (2 < argc) {
+		usage();
 	} else while (1 < argc) {
 		const char *arg = argv[1];
 		if (!strcmp(arg, "-c"))

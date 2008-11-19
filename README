@@ -1,0 +1,22 @@
+xgetc is command line tool to get geometry/color/position of the selection or
+clicked location in X.
+
+I was doing some web development and hated going back and forth between vim and
+gimp color picker for getting the hexadecimal color of some random pixel on the
+screen.  Googling returned nothing then so I tried to come up with my own program
+but ended up copying most of the code from ImageMagick :o)
+
+So most of the code in xgetc was shamelessly stolen^Wcopied ImageMagick.
+
+Sample usage:
+
+% xgetc -g   # click and drag anywhere on your screen, the geometry will be
+             # printed.
+
+% xgetc -c   # click anywhere on your screen, the color will be printed in hex,
+             #  e.g. #3366ff.
+
+% xgetc -p   # click anywhere on your screen, the mouseclick position will be
+             # printed in hex.
+
+Author: Nazri Ramliy
