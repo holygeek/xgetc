@@ -1,5 +1,5 @@
-#PREFIX=/usr/local
-PREFIX=$$HOME
+PREFIX=/usr/local
+#PREFIX=$$HOME
 
 FILES = xgetc.c xgetc.1 LICENSE makefile
 

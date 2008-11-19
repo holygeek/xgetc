@@ -1,6 +1,14 @@
 xgetc is command line tool to get geometry/color/position of the selection or
 clicked location in X.
 
+Compile: make xgetc
+
+Documentation: man ./xgetc.1
+
+Install: make install
+	- Choose your preferred installation location by modifying PREFIX in the
+	  makefile.
+
 I was doing some web development and hated going back and forth between vim and
 gimp color picker for getting the hexadecimal color of some random pixel on the
 screen.  Googling returned nothing then so I tried to come up with my own program
