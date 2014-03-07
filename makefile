@@ -8,7 +8,7 @@ LIBS=`pkg-config --libs x11`
 all: xgetc
 
 xgetc: xgetc.c
-	gcc $(LIBS) xgetc.c -o xgetc 
+	gcc xgetc.c -o xgetc $(LIBS)
 
 install: xgetc
 	install xgetc $(PREFIX)/bin

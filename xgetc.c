@@ -442,7 +442,7 @@ void showCropInfo(RectangleInfo *crop_info) {
 		show_color_at(tlx, tly);
 		printf("\n");
 	} else {
-		printf("%dx%d+%d+%d",
+		printf("%lux%lu+%lu+%lu",
 				crop_info->width, crop_info->height,
 				crop_info->x, crop_info->y);
 		printf("\n");
@@ -458,7 +458,7 @@ void showGeometry(RectangleInfo *crop_info) {
 		printf("%3d %3d ", tlx, tly);
 		show_color_at(tlx, tly);
 	} else {
-		printf("%dx%d+%d+%d", crop_info->width, crop_info->height,
+		printf("%lux%lu+%lu+%lu", crop_info->width, crop_info->height,
 		crop_info->x, crop_info->y);
 	}
 	printf("\n");
@@ -474,7 +474,7 @@ void do_get_color() {
 void do_get_position() {
 	RectangleInfo crop_info;
 	Window w = XSelectWindow(XOpenDisplay(NULL), &crop_info);
-	printf("%3d %3d ", crop_info.x, crop_info.y);
+	printf("%3lu %3lu ", crop_info.x, crop_info.y);
 	printf("\n");
 }
 
